@@ -5,7 +5,7 @@ import cgi
 
 def print_header():
   print("Content-type: text/html; charset=utf-8\n\n")
-  print('<html lang="fr"><head><title>Métro Story</title></head>")
+  print('<html lang="fr"><head><title>Métro Story</title></head>')
   print("<body>")
 
 def print_footer():
