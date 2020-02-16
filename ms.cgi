@@ -32,7 +32,7 @@ def print_search_form():
 
 def print_results(address):
   message = ""
-  response = requests.get('https://geo.api.gouv.fr/adresse?q=%s' % address)
+  response = requests.get('https://api-adresse.data.gouv.fr/search/?q=%s' % address)
   if response:
     print(response.content)
   else:
