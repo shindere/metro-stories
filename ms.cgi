@@ -9,7 +9,17 @@ if lang != "fr_FR.UTF-8":
     
 import cgi
 import locale
+import math
 import requests
+import json
+
+def distance(x1,y1,x2,y2):
+  x = (x2 - x1) / 90.0 * 10000.0 * 1000.0
+  y = (y2 - y1) / 90.0 * 10000.0 * 1000.0
+  return math.sqrt(x*x + y*y)
+
+def get_distance(subway_entrance):
+  return subway_entrance['distance']
 
 def print_header():
   page_title = "Métro Story"
@@ -23,6 +33,7 @@ def print_footer():
   print("</body></html>")
 
 def print_search_form():
+  print("<h2>Saisie des informations</h2>")
   print("<p>Recherchez les bouches de métro les plus proches d'une addresse en île de France.</p>")
   print('<form method="post">')
   print('<p><label for="q">Chercher les bouches de métro autour du: </label></p>')
@@ -30,14 +41,54 @@ def print_search_form():
   print('<p><input type="submit" value="Lancer la recherche de bouches de métro autour de cette adresse"/></p>')
   print("</form>")
 
+def error(msg):
+  print("<p>%s</p>" % msg)
+
 def print_results(address):
-  message = ""
+  print("<h2>Résultats de votre recherche</h2>")
   response = requests.get('https://api-adresse.data.gouv.fr/search/?q=%s' % address)
-  if response:
-    print(response.content)
-  else:
-    print("<p>Erreur</p>")
-  # print("<p>Bouches situées autour du " + address + "</p>")
+  if not response:
+    error("Impossible de déterminer les coordonnées GPS de l'adresse indiquée")
+    return
+  json_response = response.json()
+
+  if not ("features" in json_response):
+    error("La réponse ne contient pas les informations attendues")
+    return
+
+  features = json_response['features']
+  if len(features) < 1:
+    error("Pas d'adresse dans la réponse")
+    return
+
+  if len(features) > 1:
+    error("Il semble que plusieurs adresses correspondent à votre recherche. Ce cas n'est pas encore traité.")
+    return
+
+  full_address = features[0]
+  geometry = full_address['geometry']
+  position = geometry['coordinates']
+  current_longitude = position[0]
+  current_latitude = position[1]
+
+  with open('/home/seb/site/ms/subway-entrances.json') as json_file:
+    subway_entrances = json.load(json_file)
+    json_file.close()
+
+  for subway_entrance in subway_entrances:
+    subway_entrance_latitude = subway_entrance['latitude']
+    subway_entrance_longitude = subway_entrance['longitude']
+    subway_entrance['distance'] = distance(current_latitude, current_longitude, subway_entrance_latitude, subway_entrance_longitude)
+
+  subway_entrances.sort(key=get_distance)
+
+  print("<p>Voici les 5 bouches de métro les plus proches de l'adresse indiquée (%s):</p>" % address)
+  print("<p><ol>")
+  for i in range(0,5):
+    n = subway_entrances[i]['name']
+    d = int(round(subway_entrances[i]['distance']))
+    print("<li>%s, à %d mètres</li>" % (n, d))
+  print("</ol></p>")
 
 def print_main_content():
   form = cgi.FieldStorage()
