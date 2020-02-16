@@ -4,7 +4,7 @@
 import cgi
 
 def print_header():
-  print("Content-type: text/html; charset=utf-8\n\n")
+  print("Content-type: text/html; charset=utf-8\r\n\r\n")
   print('<html lang="fr"><head><title>Metro Story</title></head>')
   print("<body>")
 
