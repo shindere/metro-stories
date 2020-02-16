@@ -11,10 +11,12 @@ import cgi
 import locale
 
 def print_header():
+  page_title = "Métro Story"
   print("Content-type: text/html; charset=utf-8\r\n\r\n")
   locale.setlocale(locale.LC_ALL,"fr_FR.UTF-8")
-  print('<html lang="fr"><head><title>Métro Story</title></head>')
+  print('<html lang="fr"><head><title>%s</title></head>' % page_title)
   print("<body>")
+  print("<h1>%s</h1> " % page_title)
 
 def print_footer():
   print("</body></html>")
