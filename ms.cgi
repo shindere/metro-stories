@@ -34,10 +34,9 @@ def print_results(address):
   message = ""
   response = requests.get('https://geo.api.gouv.fr/adresse?q=%s' % address)
   if response:
-    message = "Oui, ça a marché :)"
-  else:     
-    message = "Non, ça n'a pas marché :("
-  print("<p>%s</p>" % message)
+    print(response.content)
+  else:
+    print("<p>Erreur</p>")
   # print("<p>Bouches situées autour du " + address + "</p>")
 
 def print_main_content():
