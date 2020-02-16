@@ -22,8 +22,9 @@ def print_footer():
 def print_search_form():
   print("<p>Recherchez les bouches de métro les plus proches d'une addresse en île de France.</p>")
   print('<form method="post">')
-  print('<input type="text" name="q">Chercher les bouches de métro autour du:</input>')
-  print('<input type="submit">Lancer la recherche de bouches de métro autour de cette adresse</input>')
+  print('<label for="q">Chercher les bouches de métro autour du:</label>')
+  print('<input type="text" name="q" id="q"/>')
+  print('<input type="submit" value="Lancer la recherche de bouches de métro autour de cette adresse"/>')
   print("</form>")
 
 def print_results(address):
