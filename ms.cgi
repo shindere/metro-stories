@@ -9,6 +9,7 @@ if lang != "fr_FR.UTF-8":
     
 import cgi
 import locale
+import requests
 
 def print_header():
   page_title = "Métro Story"
@@ -30,7 +31,14 @@ def print_search_form():
   print("</form>")
 
 def print_results(address):
-  print("<p>Bouches situées autour du " + address + "</p>")
+  message = ""
+  response = requests.get('https://geo.api.gouv.fr/adresse?q=%s' % address)
+  if response.status_code == 200:
+    message = "Oui, ça a marché :)"
+  else:     
+    message = "Non, ça n'a pas marché :("
+  print("<p>%s</p>" % message)
+  # print("<p>Bouches situées autour du " + address + "</p>")
 
 def print_main_content():
   form = cgi.FieldStorage()
