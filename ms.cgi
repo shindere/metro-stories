@@ -83,12 +83,12 @@ def print_results(address):
   subway_entrances.sort(key=get_distance)
 
   print("<p>Voici les 5 bouches de métro les plus proches de l'adresse indiquée (%s):</p>" % address)
-  print("<p><ol>")
+  print("<p><ul>")
   for i in range(0,5):
     n = subway_entrances[i]['name']
     d = int(round(subway_entrances[i]['distance']))
     print("<li>%s, à %d mètres</li>" % (n, d))
-  print("</ol></p>")
+  print("</ul></p>")
 
 def print_main_content():
   form = cgi.FieldStorage()
