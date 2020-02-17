@@ -117,7 +117,7 @@ def print_results(address):
 def print_main_content():
     """Prints the main ocntent: either a search form, or the search results"""
     form = cgi.FieldStorage()
-    if form.getvalue('address') == None:
+    if form.getvalue('address') is None:
         print_initial_content()
     else:
         print_results(form.getvalue('address'))
