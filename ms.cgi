@@ -119,6 +119,30 @@ def print_subway_entrances(address, number, subway_entrances):
         print("<li>%s, à %d mètres</li>" % (entrance_name, entrance_distance))
     print("</ul></p>")
 
+def print_address_link(address):
+    """Print link to an address"""
+    location = address['geometry']['coordinates']
+    latitude = location[1]
+    longitude = location[0]
+    label = address['properties']['label']
+    print('<a href="?address=%s&latitude=%s&longitude=%s">%s</a>' %
+          (label, latitude, longitude, label))
+
+def print_addresses_links(addresses):
+    """Print list of found addresses"""
+    print("<p>Plusieurs adresses correspodnent à votre recherche. "
+          "Sélectionnez-en une dans la liste ci-dessous ou saisissez-en "
+          "une autre:</p>")
+    print("<ul>")
+    for address in addresses:
+        print("<li>")
+        print_address_link(address)
+        print("</li>")
+    print("<li>")
+    print_search_form(True, "Autre adresse: ")
+    print("</li>")
+    print("</ul>")
+
 def print_results(form):
     """Prints the results of a search"""
     print("<h2>Résultats de votre recherche</h2>")
@@ -131,8 +155,7 @@ def print_results(form):
             return
 
         if len(addresses) > 1:
-            address_not_found("Il semble que plusieurs adresses correspondent "
-                              "à votre recherche. Ce cas n'est pas encore traité.")
+            print_addresses_links(addresses)
             return
 
         full_address = addresses[0]
