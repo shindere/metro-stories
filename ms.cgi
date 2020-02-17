@@ -15,11 +15,11 @@ if os.getenv("LANG") != "fr_FR.UTF-8":
     os.putenv("LANG", "fr_FR.UTF-8")
     os.execv(sys.argv[0], sys.argv)
 
-def distance(x1, y1, x2, y2):
+def distance(x_1, y_1, x_2, y_2):
     """Computes the distance between two GPS locations, in meters"""
-    x = (x2 - x1) / 90.0 * 10000.0 * 1000.0
-    y = (y2 - y1) / 90.0 * 10000.0 * 1000.0
-    return math.sqrt(x*x + y*y)
+    x_0 = (x_2 - x_1) / 90.0 * 10000.0 * 1000.0
+    y_0 = (y_2 - y_1) / 90.0 * 10000.0 * 1000.0
+    return math.sqrt(x_0 * x_0 + y_0 * y_0)
 
 def get_distance(subway_entrance):
     """Returns the distance between a subway entrance and the reference point"""
@@ -109,9 +109,9 @@ def print_results(address):
     print("<p>Voici les 5 bouches de métro les plus proches de l'adresse indiquée (%s):</p>" % address)
     print("<p><ul>")
     for i in range(0, 5):
-        n = subway_entrances[i]['name']
-        d = int(round(subway_entrances[i]['distance']))
-        print("<li>%s, à %d mètres</li>" % (n, d))
+        entrance_name = subway_entrances[i]['name']
+        entrance_distance = int(round(subway_entrances[i]['distance']))
+        print("<li>%s, à %d mètres</li>" % (entrance_name, entrance_distance))
     print("</ul></p>")
 
 def print_main_content():
