@@ -22,7 +22,7 @@ def get_distance(subway_entrance):
   return subway_entrance['distance']
 
 def print_header():
-  page_title = "Métro Story"
+  page_title = "Métro Stories"
   print("Content-type: text/html; charset=utf-8\r\n\r\n")
   print("<!doctype html>")
   print('<html lang="fr"><head><title>%s</title></head>' % page_title)
