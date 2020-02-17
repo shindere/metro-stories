@@ -87,6 +87,38 @@ def lookup_address(address):
         return []
     return features
 
+def load_subway_entrances(file_name):
+    """Loads the subway entrances from a JSON file"""
+    with open(file_name) as json_file:
+        subway_entrances = json.load(json_file)
+        json_file.close()
+    return subway_entrances
+
+def find_nearest_subway_entrances(current_latitude, current_longitude):
+    """Finds the nearest subway entrances to the given location"""
+    subway_entrances = load_subway_entrances('/home/seb/site/ms/subway-entrances.json')
+
+    for subway_entrance in subway_entrances:
+        subway_entrance_latitude = subway_entrance['latitude']
+        subway_entrance_longitude = subway_entrance['longitude']
+        subway_entrance['distance'] = distance(
+            current_latitude, current_longitude,
+            subway_entrance_latitude, subway_entrance_longitude)
+
+    subway_entrances.sort(key=get_distance)
+    return subway_entrances
+
+def print_subway_entrances(address, number, subway_entrances):
+    """Prints the given number of subway entrances"""
+    print("<p>Voici les %d bouches de métro les plus proches de l'adresse "
+          "indiquée (%s):</p>" % (number, address))
+    print("<p><ul>")
+    for i in range(0, number):
+        entrance_name = subway_entrances[i]['name']
+        entrance_distance = int(round(subway_entrances[i]['distance']))
+        print("<li>%s, à %d mètres</li>" % (entrance_name, entrance_distance))
+    print("</ul></p>")
+
 def print_results(address):
     """Prints the results of a search"""
     print("<h2>Résultats de votre recherche</h2>")
@@ -105,27 +137,8 @@ def print_results(address):
     current_longitude = position[0]
     current_latitude = position[1]
 
-    with open('/home/seb/site/ms/subway-entrances.json') as json_file:
-        subway_entrances = json.load(json_file)
-        json_file.close()
-
-    for subway_entrance in subway_entrances:
-        subway_entrance_latitude = subway_entrance['latitude']
-        subway_entrance_longitude = subway_entrance['longitude']
-        subway_entrance['distance'] = distance(
-            current_latitude, current_longitude,
-            subway_entrance_latitude, subway_entrance_longitude)
-
-    subway_entrances.sort(key=get_distance)
-
-    print("<p>Voici les 5 bouches de métro les plus proches de l'adresse "
-          "indiquée (%s):</p>" % address)
-    print("<p><ul>")
-    for i in range(0, 5):
-        entrance_name = subway_entrances[i]['name']
-        entrance_distance = int(round(subway_entrances[i]['distance']))
-        print("<li>%s, à %d mètres</li>" % (entrance_name, entrance_distance))
-    print("</ul></p>")
+    subway_entrances = find_nearest_subway_entrances(current_latitude, current_longitude)
+    print_subway_entrances(address, 5, subway_entrances)
 
 def print_main_content():
     """Prints the main ocntent: either a search form, or the search results"""
