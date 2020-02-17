@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+"""Finds the nearest subway entrances"""
+
 import os
 import sys
 import cgi
@@ -14,14 +16,17 @@ if os.getenv("LANG") != "fr_FR.UTF-8":
     os.execv(sys.argv[0], sys.argv)
 
 def distance(x1, y1, x2, y2):
+    """Computes the distance between two GPS locations, in meters"""
     x = (x2 - x1) / 90.0 * 10000.0 * 1000.0
     y = (y2 - y1) / 90.0 * 10000.0 * 1000.0
     return math.sqrt(x*x + y*y)
 
 def get_distance(subway_entrance):
+    """Returns the distance between a subway entrance and the reference point"""
     return subway_entrance['distance']
 
 def print_header():
+    """Prints the header of the web page"""
     page_title = "Métro Stories"
     print("Content-type: text/html; charset=utf-8\r\n\r\n")
     print("<!doctype html>")
@@ -30,18 +35,18 @@ def print_header():
     print("<h1>%s</h1> " % page_title)
 
 def print_footer():
+    """Prints the footer of the web page"""
     print("</body></html>")
 
 def print_text(inline, text):
+    """Prints a text, either in a paragraph if inline is False, or as is if inline is True"""
     if inline:
         print(text)
     else:
         print("<p>%s</p>" % text)
 
-# Prints the search form
-# inline is True if the form is inline, False otherwise
-# label is the label for the text field
 def print_search_form(inline, label):
+    """Prints an address search form with the provided label"""
     print('<form method="get">')
     print_text(inline, '<label for="address">%s</label>' % label)
     print_text(inline, '<input type="text" name="address" id="address"/>')
@@ -50,16 +55,19 @@ def print_search_form(inline, label):
     print("</form>")
 
 def print_initial_content():
+    """Prints the main content of the initial search page"""
     print("<h2>Saisie des informations</h2>")
     print("<p>Recherchez les bouches de métro les plus proches d'une addresse en île de France.</p>")
     print_search_form(False, "Chercher les bouches de métro autour du: ")
 
 def address_not_found(msg):
+    """Prints a message explaining why the address was not found and a new search form"""
     print("<p>%s</p>" % msg)
     print("<p>Vous pouvez saisir une nouvelle adresse. Par exemple, 2 rue Simone Iff 75012 Paris</p>")
     print_search_form(False, "Nouvelle adresse: ")
 
 def print_results(address):
+    """Prints the results of a search"""
     print("<h2>Résultats de votre recherche</h2>")
     response = requests.get('https://api-adresse.data.gouv.fr/search/?q=%s' % address)
     if not response:
@@ -107,6 +115,7 @@ def print_results(address):
     print("</ul></p>")
 
 def print_main_content():
+    """Prints the main ocntent: either a search form, or the search results"""
     form = cgi.FieldStorage()
     if form.getvalue('address') == None:
         print_initial_content()
@@ -114,6 +123,7 @@ def print_main_content():
         print_results(form.getvalue('address'))
 
 def main():
+    """The main function of the script"""
     locale.setlocale(locale.LC_ALL, "fr_FR.UTF-8")
     print_header()
     print_main_content()
