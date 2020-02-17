@@ -57,13 +57,15 @@ def print_search_form(inline, label):
 def print_initial_content():
     """Prints the main content of the initial search page"""
     print("<h2>Saisie des informations</h2>")
-    print("<p>Recherchez les bouches de métro les plus proches d'une addresse en île de France.</p>")
+    print("<p>Recherchez les bouches de métro les plus proches d'une "
+          "addresse en île de France.</p>")
     print_search_form(False, "Chercher les bouches de métro autour du: ")
 
 def address_not_found(msg):
     """Prints a message explaining why the address was not found and a new search form"""
     print("<p>%s</p>" % msg)
-    print("<p>Vous pouvez saisir une nouvelle adresse. Par exemple, 2 rue Simone Iff 75012 Paris</p>")
+    print("<p>Vous pouvez saisir une nouvelle adresse. "
+          "Par exemple, 2 rue Simone Iff 75012 Paris</p>")
     print_search_form(False, "Nouvelle adresse: ")
 
 def print_results(address):
@@ -86,7 +88,8 @@ def print_results(address):
         return
 
     if len(features) > 1:
-        address_not_found("Il semble que plusieurs adresses correspondent à votre recherche. Ce cas n'est pas encore traité.")
+        address_not_found("Il semble que plusieurs adresses correspondent "
+                          "à votre recherche. Ce cas n'est pas encore traité.")
         return
 
     full_address = features[0]
@@ -102,11 +105,14 @@ def print_results(address):
     for subway_entrance in subway_entrances:
         subway_entrance_latitude = subway_entrance['latitude']
         subway_entrance_longitude = subway_entrance['longitude']
-        subway_entrance['distance'] = distance(current_latitude, current_longitude, subway_entrance_latitude, subway_entrance_longitude)
+        subway_entrance['distance'] = distance(
+            current_latitude, current_longitude,
+            subway_entrance_latitude, subway_entrance_longitude)
 
     subway_entrances.sort(key=get_distance)
 
-    print("<p>Voici les 5 bouches de métro les plus proches de l'adresse indiquée (%s):</p>" % address)
+    print("<p>Voici les 5 bouches de métro les plus proches de l'adresse "
+          "indiquée (%s):</p>" % address)
     print("<p><ul>")
     for i in range(0, 5):
         entrance_name = subway_entrances[i]['name']
