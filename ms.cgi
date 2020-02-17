@@ -123,20 +123,26 @@ def print_results(form):
     """Prints the results of a search"""
     print("<h2>Résultats de votre recherche</h2>")
     address = form.getvalue('address')
-    addresses = lookup_address(address)
-    if addresses == []:
-        return
+    current_latitude = 0.0
+    current_longitude = 0.0
+    if form.getvalue('latitude') is None or form.getvalue('longitude') is None:
+        addresses = lookup_address(address)
+        if addresses == []:
+            return
 
-    if len(addresses) > 1:
-        address_not_found("Il semble que plusieurs adresses correspondent "
-                          "à votre recherche. Ce cas n'est pas encore traité.")
-        return
+        if len(addresses) > 1:
+            address_not_found("Il semble que plusieurs adresses correspondent "
+                              "à votre recherche. Ce cas n'est pas encore traité.")
+            return
 
-    full_address = addresses[0]
-    geometry = full_address['geometry']
-    position = geometry['coordinates']
-    current_longitude = position[0]
-    current_latitude = position[1]
+        full_address = addresses[0]
+        geometry = full_address['geometry']
+        position = geometry['coordinates']
+        current_longitude = position[0]
+        current_latitude = position[1]
+    else:
+        current_latitude = form.getvalue('latitude')
+        current_longitude = form.getvalue('longitude')
 
     subway_entrances = find_nearest_subway_entrances(current_latitude, current_longitude)
     print_subway_entrances(address, 5, subway_entrances)
