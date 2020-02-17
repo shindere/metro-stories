@@ -166,6 +166,7 @@ def print_results(form):
     else:
         current_latitude = form.getvalue('latitude')
         current_longitude = form.getvalue('longitude')
+        print('<p>OK, on a latitude=%f et longitude=%f</p>' % (current_latitude, current_longitude))
 
     subway_entrances = find_nearest_subway_entrances(current_latitude, current_longitude)
     print_subway_entrances(address, 5, subway_entrances)
