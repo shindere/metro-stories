@@ -36,8 +36,8 @@ def print_search_form():
   print("<h2>Saisie des informations</h2>")
   print("<p>Recherchez les bouches de métro les plus proches d'une addresse en île de France.</p>")
   print('<form method="post">')
-  print('<p><label for="q">Chercher les bouches de métro autour du: </label></p>')
-  print('<p><input type="text" name="q" id="q"/></p>')
+  print('<p><label for="address">Chercher les bouches de métro autour du: </label></p>')
+  print('<p><input type="text" name="address" id="address"/></p>')
   print('<p><input type="submit" value="Lancer la recherche de bouches de métro autour de cette adresse"/></p>')
   print("</form>")
 
@@ -92,10 +92,10 @@ def print_results(address):
 
 def print_main_content():
   form = cgi.FieldStorage()
-  if form.getvalue('q') == None:
+  if form.getvalue('address') == None:
     print_search_form()
   else:
-    print_results(form.getvalue('q'))
+    print_results(form.getvalue('address'))
 
 
 
