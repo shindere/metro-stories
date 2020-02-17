@@ -68,31 +68,38 @@ def address_not_found(msg):
           "Par exemple, 2 rue Simone Iff 75012 Paris</p>")
     print_search_form(False, "Nouvelle adresse: ")
 
-def print_results(address):
-    """Prints the results of a search"""
-    print("<h2>Résultats de votre recherche</h2>")
+def lookup_address(address):
+    """Looks up the given address for GPS coordinates in national address DB"""
     response = requests.get('https://api-adresse.data.gouv.fr/search/?q=%s' % address)
     if not response:
         address_not_found("Impossible de déterminer les coordonnées GPS de l'adresse indiquée")
-        return
+        return []
 
     json_response = response.json()
 
     if not "features" in json_response:
         address_not_found("La réponse ne contient pas les informations attendues")
-        return
+        return []
 
     features = json_response['features']
     if len(features) < 1:
         address_not_found("Pas d'adresse dans la réponse")
+        return []
+    return features
+
+def print_results(address):
+    """Prints the results of a search"""
+    print("<h2>Résultats de votre recherche</h2>")
+    addresses = lookup_address(address)
+    if addresses == []:
         return
 
-    if len(features) > 1:
+    if len(addresses) > 1:
         address_not_found("Il semble que plusieurs adresses correspondent "
                           "à votre recherche. Ce cas n'est pas encore traité.")
         return
 
-    full_address = features[0]
+    full_address = addresses[0]
     geometry = full_address['geometry']
     position = geometry['coordinates']
     current_longitude = position[0]
