@@ -119,9 +119,10 @@ def print_subway_entrances(address, number, subway_entrances):
         print("<li>%s, à %d mètres</li>" % (entrance_name, entrance_distance))
     print("</ul></p>")
 
-def print_results(address):
+def print_results(form):
     """Prints the results of a search"""
     print("<h2>Résultats de votre recherche</h2>")
+    address = form.getvalue('address')
     addresses = lookup_address(address)
     if addresses == []:
         return
@@ -140,19 +141,19 @@ def print_results(address):
     subway_entrances = find_nearest_subway_entrances(current_latitude, current_longitude)
     print_subway_entrances(address, 5, subway_entrances)
 
-def print_main_content():
+def print_main_content(form):
     """Prints the main ocntent: either a search form, or the search results"""
-    form = cgi.FieldStorage()
     if form.getvalue('address') is None:
         print_initial_content()
     else:
-        print_results(form.getvalue('address'))
+        print_results(form)
 
 def main():
     """The main function of the script"""
     locale.setlocale(locale.LC_ALL, "fr_FR.UTF-8")
+    form = cgi.FieldStorage()
     print_header()
-    print_main_content()
+    print_main_content(form)
     print_footer()
 
 main()
