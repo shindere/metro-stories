@@ -77,7 +77,7 @@ def lookup_address(address):
 
     json_response = response.json()
 
-    if not "features" in json_response:
+    if "features" not in json_response:
         address_not_found("La réponse ne contient pas les informations attendues")
         return []
 
@@ -184,5 +184,6 @@ def main():
     print_header()
     print_main_content(form)
     print_footer()
+
 
 main()
