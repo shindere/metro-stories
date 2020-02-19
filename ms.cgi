@@ -8,8 +8,8 @@ import sys
 import cgi
 import locale
 import math
-import json
 import requests
+import overpass
 
 if os.getenv("LANG") != "fr_FR.UTF-8":
     os.putenv("LANG", "fr_FR.UTF-8")
@@ -87,20 +87,19 @@ def lookup_address(address):
         return []
     return features
 
-def load_subway_entrances(file_name):
-    """Loads the subway entrances from a JSON file"""
-    with open(file_name) as json_file:
-        subway_entrances = json.load(json_file)
-        json_file.close()
-    return subway_entrances
+def build_overpass_query(latitude, longitude, radius):
+    """Builds the OverPass query to look for subway entrances aroudn the given location"""
+    return "node[railway=subway_entrance](around:%d,%f,%f);" % (radius, latitude, longitude)
 
 def find_nearest_subway_entrances(current_latitude, current_longitude):
     """Finds the nearest subway entrances to the given location"""
-    subway_entrances = load_subway_entrances('/home/seb/site/ms/subway-entrances.json')
-
+    query = build_overpass_query(current_latitude, current_longitude, 2000)
+    overpass_api = overpass.API()
+    result = overpass_api.Get(query, responseformat='json')
+    subway_entrances = result['elements']
     for subway_entrance in subway_entrances:
-        subway_entrance_latitude = subway_entrance['latitude']
-        subway_entrance_longitude = subway_entrance['longitude']
+        subway_entrance_latitude = subway_entrance['lat']
+        subway_entrance_longitude = subway_entrance['lon']
         subway_entrance['distance'] = distance(
             current_latitude, current_longitude,
             subway_entrance_latitude, subway_entrance_longitude)
@@ -114,7 +113,9 @@ def print_subway_entrances(address, number, subway_entrances):
           "indiquée (%s):</p>" % (number, address))
     print("<p><ul>")
     for i in range(0, number):
-        entrance_name = subway_entrances[i]['name']
+        entrance_name = subway_entrances[i]['tags']['name']
+        if not entrance_name:
+            entrance_name = "Bouche inconnue"
         entrance_distance = int(round(subway_entrances[i]['distance']))
         print("<li>%s, à %d mètres</li>" % (entrance_name, entrance_distance))
     print("</ul></p>")
