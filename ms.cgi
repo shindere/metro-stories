@@ -115,7 +115,7 @@ def print_subway_entrances(address, number, subway_entrances):
     print("<p>Voici les %d bouches de métro les plus proches de l'adresse "
           "indiquée (%s):</p>" % (number, address))
     print("<p><ul>")
-    for i in range(0, number):
+    for i in range(number):
         entrance_name = subway_entrances[i]['tags']['name']
         if not entrance_name:
             entrance_name = "Bouche inconnue"
