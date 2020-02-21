@@ -197,4 +197,5 @@ def main():
     print_footer()
 
 
-main()
+if __name__ == '__main__':
+    main()
