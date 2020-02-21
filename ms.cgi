@@ -110,6 +110,11 @@ def find_nearest_subway_entrances(current_latitude, current_longitude):
     subway_entrances.sort(key=get_distance)
     return subway_entrances
 
+def entrance_number_is_valid(entrance_number):
+    """Checks whether an entrance number is valid"""
+    invalid_entrance_numbers = ("0", "-1", "?")
+    return entrance_number is not None and entrance_number not in invalid_entrance_numbers
+
 def print_subway_entrances(address, number, subway_entrances):
     """Prints the given number of subway entrances"""
     print("<p>Voici les %d bouches de métro les plus proches de l'adresse "
@@ -120,7 +125,11 @@ def print_subway_entrances(address, number, subway_entrances):
         if not entrance_name:
             entrance_name = "Bouche inconnue"
         entrance_distance = int(round(subway_entrances[i]['distance']))
-        print("<li>%s, à %d mètres</li>" % (entrance_name, entrance_distance))
+        entrance_number = subway_entrances[i]['tags']['ref']
+        entrance_string = ""
+        if entrance_number_is_valid(entrance_number):
+            entrance_string = ", sortie %s" % entrance_number
+        print("<li>%s%s, à %d mètres</li>" % (entrance_name, entrance_string, entrance_distance))
     print("</ul></p>")
 
 def print_address_link(address):
