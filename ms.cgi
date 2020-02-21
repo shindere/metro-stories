@@ -58,7 +58,7 @@ def print_initial_content():
     """Prints the main content of the initial search page"""
     print("<h2>Saisie des informations</h2>")
     print("<p>Recherchez les bouches de métro les plus proches d'une "
-          "adresse en Île-de-France.</p>")
+          "adresse.</p>")
     print_search_form(False, "Chercher les bouches de métro autour du: ")
 
 def address_not_found(msg):
