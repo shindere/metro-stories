@@ -54,6 +54,12 @@ def print_search_form(inline, label):
     print_text(inline, '<input type="submit" value="%s"/>' % value)
     print("</form>")
 
+def print_new_search_form(inline):
+    """Prints a form to lookup a new address"""
+    print("<p>Vous pouvez saisir une nouvelle adresse. "
+          "Par exemple, 2 rue Simone Iff 75012 Paris</p>")
+    print_search_form(inline, "Nouvelle adresse: ")
+
 def print_initial_content():
     """Prints the main content of the initial search page"""
     print("<h2>Saisie des informations</h2>")
@@ -64,9 +70,6 @@ def print_initial_content():
 def address_not_found(msg):
     """Prints a message explaining why the address was not found and a new search form"""
     print("<p>%s</p>" % msg)
-    print("<p>Vous pouvez saisir une nouvelle adresse. "
-          "Par exemple, 2 rue Simone Iff 75012 Paris</p>")
-    print_search_form(False, "Nouvelle adresse: ")
 
 def lookup_address(address):
     """Looks up the given address for GPS coordinates in national address DB"""
@@ -139,9 +142,6 @@ def print_addresses_links(addresses):
         print("<li>")
         print_address_link(address)
         print("</li>")
-    print("<li>")
-    print_search_form(True, "Autre adresse: ")
-    print("</li>")
     print("</ul>")
 
 def print_results(form):
@@ -177,6 +177,7 @@ def print_main_content(form):
         print_initial_content()
     else:
         print_results(form)
+        print_new_search_form(False)
 
 def main():
     """The main function of the script"""
