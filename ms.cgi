@@ -5,6 +5,7 @@
 
 import os
 import sys
+import re
 import cgi
 import locale
 import math
@@ -24,6 +25,10 @@ def distance(x_1, y_1, x_2, y_2):
 def get_distance(subway_entrance):
     """Returns the distance between a subway entrance and the reference point"""
     return subway_entrance['distance']
+
+def cleanup_station_name(name):
+    """Cleans up a station name by removing the "line" part"""
+    return re.sub(r"\w*\(.*\)", "", name).rstrip()
 
 def print_header():
     """Prints the header of the web page"""
@@ -90,13 +95,27 @@ def lookup_address(address):
         return []
     return features
 
-def build_overpass_query(latitude, longitude, radius):
+def build_entrance_query(latitude, longitude, radius):
     """Builds the OverPass query to look for subway entrances aroudn the given location"""
     return "node[railway=subway_entrance](around:%d,%f,%f);" % (radius, latitude, longitude)
 
+def build_station_query(entrance_id):
+    """Returns the OverPass query to find to which station an entrance belongs to"""
+    return "node(id:%s);rel(bn)[type=public_transport][public_transport=stop_area];" % entrance_id
+
+def find_station(subway_entrance):
+    """Finds the name of the station to which an entrance belongs"""
+    query = build_station_query(subway_entrance['id'])
+    overpass_api = overpass.API()
+    result = overpass_api.Get(query, responseformat='json')
+    stations = result['elements']
+    if stations is None or stations == []:
+        return "inconnue"
+    return cleanup_station_name(stations[0]['tags']['name'])
+
 def find_nearest_subway_entrances(current_latitude, current_longitude):
     """Finds the nearest subway entrances to the given location"""
-    query = build_overpass_query(current_latitude, current_longitude, 2000)
+    query = build_entrance_query(current_latitude, current_longitude, 2000)
     overpass_api = overpass.API()
     result = overpass_api.Get(query, responseformat='json')
     subway_entrances = result['elements']
@@ -121,15 +140,25 @@ def print_subway_entrances(address, number, subway_entrances):
           "indiquée (%s):</p>" % (number, address))
     print("<p><ul>")
     for i in range(number):
-        entrance_name = subway_entrances[i]['tags']['name']
+        station = find_station(subway_entrances[i])
+        if subway_entrances[i]['tags'] is None or 'name' not in subway_entrances[i]['tags']:
+            entrance_name = None
+        else:
+            entrance_name = subway_entrances[i]['tags']['name']
         if not entrance_name:
-            entrance_name = "Bouche inconnue"
-        entrance_distance = int(round(subway_entrances[i]['distance']))
-        entrance_number = subway_entrances[i]['tags']['ref']
-        entrance_string = ""
+            entrance_name = "sans nom"
+
+        if subway_entrances[i]['tags'] is not None and 'ref' in subway_entrances[i]['tags']:
+            entrance_number = subway_entrances[i]['tags']['ref']
+        else:
+            entrance_number = None
         if entrance_number_is_valid(entrance_number):
-            entrance_string = ", sortie %s" % entrance_number
-        print("<li>%s%s, à %d mètres</li>" % (entrance_name, entrance_string, entrance_distance))
+            entrance_number = "sortie %s" % entrance_number
+        else:
+            entrance_number = "numéro de sortie inconnu"
+        entrance_distance = int(round(subway_entrances[i]['distance']))
+        print("<li>Station %s, %s, %s, à %d mètres</li>"
+              % (station, entrance_number, entrance_name, entrance_distance))
     print("</ul></p>")
 
 def print_address_link(address):
