@@ -1,0 +1,14 @@
+* Améliorations possibles du calcul de distance entre l'adresse et les bouches
+** Utiliser une bibliothèque externe qui tient mieux compte des positions GPS
+** Utiliser la distance à pieds plutôt qu'à vol d'oiseau
+
+* Affichage des résultats
+
+Peut-être de façon optionnelle:
+
+** N'afficher qu'une bouche par station
+** Afficher uniquement des stations situées sur des lignes différentes
+
+* Technique
+** Voir si on peut diminuer le nombre de requêtes OverPass
+** Utiliser un framework Python pour l'affichage et le ASGI/WSGI
