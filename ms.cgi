@@ -110,7 +110,7 @@ def find_station(subway_entrance):
     result = overpass_api.Get(query, responseformat='json')
     stations = result['elements']
     if stations is None or stations == []:
-        return "inconnue"
+        return "inconnue (bouche orpheline, id=%s)" % subway_entrance['id']
     return cleanup_station_name(stations[0]['tags']['name'])
 
 def find_nearest_subway_entrances(current_latitude, current_longitude):
@@ -140,6 +140,7 @@ def print_subway_entrances(address, number, subway_entrances):
           "indiquée (%s):</p>" % (number, address))
     print("<p><ul>")
     for i in range(number):
+        print_id = False
         station = find_station(subway_entrances[i])
         if subway_entrances[i]['tags'] is None or 'name' not in subway_entrances[i]['tags']:
             entrance_name = None
@@ -147,6 +148,7 @@ def print_subway_entrances(address, number, subway_entrances):
             entrance_name = subway_entrances[i]['tags']['name']
         if not entrance_name:
             entrance_name = "sans nom"
+            print_id = True
 
         if subway_entrances[i]['tags'] is not None and 'ref' in subway_entrances[i]['tags']:
             entrance_number = subway_entrances[i]['tags']['ref']
@@ -156,9 +158,13 @@ def print_subway_entrances(address, number, subway_entrances):
             entrance_number = "sortie %s" % entrance_number
         else:
             entrance_number = "numéro de sortie inconnu"
+            print_id = True
         entrance_distance = int(round(subway_entrances[i]['distance']))
-        print("<li>Station %s, %s, %s, à %d mètres</li>"
-              % (station, entrance_number, entrance_name, entrance_distance))
+        idstr = ""
+        if print_id:
+            idstr = " (id=%s)" % subway_entrances[i]['id']
+        print("<li>Station %s, %s, %s, à %d mètres%s</li>"
+              % (station, entrance_number, entrance_name, entrance_distance, idstr))
     print("</ul></p>")
 
 def print_address_link(address):
