@@ -3,6 +3,7 @@
 ** Utiliser la distance à pieds plutôt qu'à vol d'oiseau
 
 * Affichage des résultats
+** Si une station n'a qu'une seule sortie, afficher "sortie unique"
 
 Peut-être de façon optionnelle:
 
