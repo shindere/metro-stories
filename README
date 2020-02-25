@@ -1,0 +1,12 @@
+This repository provides a small web-site that lets one find metro
+entrances/exits around a given address in France.
+
+To find its results, the application first looks up the french national
+address database to associate a GPS location to the specified address.
+
+It then looks up OpenStreetMap to find the subway entrances/exits
+nearest to this location.
+
+The web site is available at the following address:
+
+http://seb.thefreecat.org/metro-stories
