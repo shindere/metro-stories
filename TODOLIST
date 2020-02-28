@@ -4,11 +4,15 @@
 
 * Affichage des résultats
 ** Si une station n'a qu'une seule sortie, afficher "sortie unique"
-
+** Affichage du nom des stations
+  si la bouche fait partie d'un stop_area qui contient un public_transport=station ou un railway=station, alors prend le nom de cet objet
+  sinon, si la bouche fait partie d'une stop_area qui a un nom, prend ce nom
+  Note: une station est objet avec railway=station et/ou public_transport=station
 Peut-être de façon optionnelle:
 
 ** N'afficher qu'une bouche par station
 ** Afficher uniquement des stations situées sur des lignes différentes
+** Inclure arrêts de bus?
 
 * Technique
 ** Voir si on peut diminuer le nombre de requêtes OverPass
