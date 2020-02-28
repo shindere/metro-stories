@@ -18,3 +18,9 @@ Peut-être de façon optionnelle:
 ** Voir si on peut diminuer le nombre de requêtes OverPass
 ** Utiliser un framework Python pour l'affichage et le ASGI/WSGI
 ** Utilisation bibliothèque python3-geojson (format retourné par la BAN et proposé par OverPass)
+
+* Documentation
+
+** Dans le code, ajouter en commentaries des liens vers les explications des clefs et des valeurs OSM que l'on utilise
+
+** Dans le README, une section further readings
