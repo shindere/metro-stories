@@ -17,3 +17,4 @@ Peut-être de façon optionnelle:
 * Technique
 ** Voir si on peut diminuer le nombre de requêtes OverPass
 ** Utiliser un framework Python pour l'affichage et le ASGI/WSGI
+** Utilisation bibliothèque python3-geojson (format retourné par la BAN et proposé par OverPass)
