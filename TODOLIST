@@ -17,6 +17,9 @@ Peut-être de façon optionnelle:
 
 * Technique
 ** Voir si on peut diminuer le nombre de requêtes OverPass
+** Améliorer affichage chaînes de caractères
+*** Avec la méthode format, ou
+*** Avec les fstrings f"Hello {name}"
 ** Utiliser un framework Python pour l'affichage et le ASGI/WSGI
 ** Utilisation bibliothèque python3-geojson (format retourné par la BAN et proposé par OverPass)
 
