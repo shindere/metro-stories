@@ -13,6 +13,7 @@ Peut-être de façon optionnelle:
 ** N'afficher qu'une bouche par station
 ** Afficher uniquement des stations situées sur des lignes différentes
 ** Inclure arrêts de bus?
+** Faire un affichage par colonnes pour les voyants
 
 * Technique
 ** Voir si on peut diminuer le nombre de requêtes OverPass
