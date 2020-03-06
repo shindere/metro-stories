@@ -1,5 +1,7 @@
 * Améliorations possibles du calcul de distance entre l'adresse et les bouches
 ** Utiliser une bibliothèque externe qui tient mieux compte des positions GPS
+  Mot-clef: geospatial library python
+  Par exemple: python3-geojson
 ** Utiliser la distance à pieds plutôt qu'à vol d'oiseau
 
 * Affichage des résultats
