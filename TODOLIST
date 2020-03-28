@@ -7,6 +7,10 @@
 https://wiki.openstreetmap.org/wiki/GraphHopper
 https://wiki.openstreetmap.org/wiki/Osrm
 
+Articles sur les algorithmes de parcours de graphes utilisés en routage:
+https://www.sigterritoires.fr/index.php/developper-une-application-avec-pgrouting-sous-windows-2lalgorithme-a-star/
+https://www.sigterritoires.fr/index.php/developper-une-application-avec-pgrouting-sous-windows-3lalgorithme-dijkstra/
+
 * Affichage des résultats
 ** Si une station n'a qu'une seule sortie, afficher "sortie unique"
 ** Affichage du nom des stations
