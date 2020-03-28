@@ -4,6 +4,9 @@
   Par exemple: python3-geojson
 ** Utiliser la distance à pieds plutôt qu'à vol d'oiseau
 
+https://wiki.openstreetmap.org/wiki/GraphHopper
+https://wiki.openstreetmap.org/wiki/Osrm
+
 * Affichage des résultats
 ** Si une station n'a qu'une seule sortie, afficher "sortie unique"
 ** Affichage du nom des stations
