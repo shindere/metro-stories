@@ -6,6 +6,9 @@
 La bibliothèque ci-dessus permet d'exécuter des requêtes soit dans des
 threads, soit via des processus.
 
+Bibliothèque aiohttp, semble être la bonne solution (utilise asyncio,
+fait tout dans le même thread)
+
 * Améliorations possibles du calcul de distance entre l'adresse et les bouches
 ** Utiliser une bibliothèque externe qui tient mieux compte des positions GPS
   Mot-clef: geospatial library python
