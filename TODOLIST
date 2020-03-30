@@ -1,6 +1,11 @@
 * Parallélisaiton des requêtes
 ** Voir Python async, en particulier coroutines, tasks et asyncio
 
+** Voir aussi https://docs.python.org/3.8/library/concurrent.futures.html
+
+La bibliothèque ci-dessus permet d'exécuter des requêtes soit dans des
+threads, soit via des processus.
+
 * Améliorations possibles du calcul de distance entre l'adresse et les bouches
 ** Utiliser une bibliothèque externe qui tient mieux compte des positions GPS
   Mot-clef: geospatial library python
