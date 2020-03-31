@@ -55,3 +55,7 @@ Peut-être de façon optionnelle:
 Exemple: https://wiki.openstreetmap.org/wiki/Key:name
 
 ** Dans le README, une section further readings
+
+* Conceptions alternatives
+** Que peut-on faire en local, que peut-on précalculer?
+** Existe-t-il des conteneurs dockers avec OSM ou des services dedans?
