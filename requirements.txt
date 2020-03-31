@@ -1,3 +1,4 @@
 # List of Python dependencies
 
+requests
 overpass
