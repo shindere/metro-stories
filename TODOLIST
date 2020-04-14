@@ -46,6 +46,7 @@ Peut-être de façon optionnelle:
 *** Avec la méthode format, ou
 *** Avec les fstrings f"Hello {name}"
 ** Utiliser un framework Python pour l'affichage et le ASGI/WSGI
+  (cf. https://asgi.readthedocs.io)
 ** Utilisation bibliothèque python3-geojson (format retourné par la BAN et proposé par OverPass)
 
 * Documentation
