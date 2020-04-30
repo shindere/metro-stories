@@ -1,3 +1,8 @@
+* Vérification de l'intégrité des données sur OpenStreetMap
+
+Vérifier régulièrement les donées sur les bouches / stations pour être
+sûr qu'il n'y a pas de régressions (peut-être via OverPass?)
+
 * Parallélisaiton des requêtes
 ** Voir Python async, en particulier coroutines, tasks et asyncio
 
