@@ -96,7 +96,7 @@ def lookup_address(address):
     return features
 
 def build_entrance_query(latitude, longitude, radius):
-    """Builds the OverPass query to look for subway entrances aroudn the given location"""
+    """Builds the OverPass query to look for subway entrances around the given location"""
     return "node[railway=subway_entrance](around:%d,%f,%f);" % (radius, latitude, longitude)
 
 def build_station_query(entrance_id):
