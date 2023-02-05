@@ -1,3 +1,19 @@
+* Regrouper les requêtes OverPass en une seule
+
+Actuellement, on procède comme suit:
+
+1. Une requête pour récupérer les bouches les plus proches
+
+2. Pour chaque bouche, une requête distincte pour trouver à quelle station elle appartient
+
+Il semble qu'il soit possible de récupérer toutes ces informations
+en une seule requête en utilisant une requête OverPass telle que:
+
+node[railway=subway_entrance](around:100,48.87614,2.32656);
+out;
+rel(bn._)[type=public_transport][public_transport=stop_area];
+out;
+
 * Vérification de l'intégrité des données sur OpenStreetMap
 
 Vérifier régulièrement les donées sur les bouches / stations pour être
